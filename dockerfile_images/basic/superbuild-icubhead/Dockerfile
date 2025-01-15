@@ -97,10 +97,11 @@ ARG release
 ARG sbtag
 ARG metadata
 
-ENV img_metadata=${metadata}
 
-RUN echo 'export img_metadata=${metadata}'  > $METADATA_FILE &&\
-    echo 'echo 'This images has release=$release and had been building with superbuild_tag=$sbtag. Metadata=$metadata ' '  >> $METADATA_FILE
+
+RUN echo 'echo 'This images has release=$release and is built with superbuild_tag=$sbtag. Metadata=$metadata ' '  >> $METADATA_FILE
+
+RUN echo "source ${METADATA_FILE}" >> $ROBOTOLOGY_INITIALIZATION_FILE
 
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 

@@ -61,7 +61,7 @@ RUN cd ${PROJECTS_DIR}/robotology-superbuild &&\
 # Stage 2: scratch stage
 # This should theoretically help reducing the size of the final image
 FROM scratch
-COPY --from=secondstage / /
+COPY --from=builder / /
 
 ARG metadata
 ARG METADATA_FILE
