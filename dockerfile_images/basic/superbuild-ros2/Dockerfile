@@ -1,6 +1,6 @@
 #start from image passed by argument during build process. Usually it is an ubuntu image plus mesa library.
 ARG START_IMG="none"
-ARG METADATA_FILE="/usr/local/bin/setup_metadata.sh"
+ARG METADATA_FILE=/usr/local/bin/setup_metadata.sh
 ARG ROBOTOLOGY_INITIALIZATION_FILE=/usr/local/bin/setup_robotology_tdd.sh
 ARG release="master"
 ARG sbtag="Stable"
@@ -73,8 +73,6 @@ RUN cd ${PROJECTS_DIR}/robotology-superbuild &&\
         # for enabling yarp-devices-ros2
         -DROBOTOLOGY_ENABLE_ROS2:BOOL=ON \
         -DROBOTOLOGY_PROJECT_TAGS=${sbtag} \
-        # -DYARP_ROS2_USE_SYSTEM_yarp_control_msgs:BOOL=ON \
-        # -DYARP_ROS2_USE_SYSTEM_yarp_dev:BOOL=ON \
         &&\
         # Build all the projects
         cmake --build . -- ${CMAKE_EXTRA_OPTIONS}

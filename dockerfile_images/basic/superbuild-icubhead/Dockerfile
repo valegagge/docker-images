@@ -4,9 +4,10 @@ ARG ROBOTOLOGY_INITIALIZATION_FILE=/usr/local/bin/setup_robotology_tdd.sh
 ARG METADATA_FILE=/usr/local/bin/setup_metadata.sh
 ARG PROJECTS_DIR=/projects
 ARG INSTALL_DIR=${PROJECTS_DIR}/robotology-superbuild/build/install
-ARG release="none"
-ARG sbtag="none"
-ARG metadata="none"
+# Default tags
+ARG release="master"
+ARG sbtag="Stable"
+ARG metadata="data"
 
 FROM $START_IMG AS builder
 
@@ -62,8 +63,7 @@ RUN mkdir ${PROJECTS_DIR} && cd ${PROJECTS_DIR} &&\
 
 # Executing commands in chain makes compilation faster
 # other then calling the command RUN everytime
-RUN echo "source ${INSTALL_DIR}/share/robotology-superbuild/setup.sh" >> $ROBOTOLOGY_INITIALIZATION_FILE &&\
-    echo "source ${METADATA_FILE}" >> $ROBOTOLOGY_INITIALIZATION_FILE
+RUN echo "source ${INSTALL_DIR}/share/robotology-superbuild/setup.sh" >> $ROBOTOLOGY_INITIALIZATION_FILE
 
 # Stage 2: secondstage stage
 FROM $START_IMG AS secondstage
@@ -89,9 +89,10 @@ COPY --from=secondstage / /
 EXPOSE 10000/tcp 10000/udp
 
 # Some QT-Apps don't show controls without this
-ENV QT_X11_NO_MITSHM 1
-ENV YARP_COLORED_OUTPUT 1
+ENV QT_X11_NO_MITSHM=1
+ENV YARP_COLORED_OUTPUT=1
 
+ARG ROBOTOLOGY_INITIALIZATION_FILE
 ARG METADATA_FILE
 ARG release
 ARG sbtag
